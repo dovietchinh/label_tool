@@ -1,0 +1,123 @@
+.imgview {
+    max-width: 500px;
+    max-height: 500px;
+    border: solid 10px red;
+    background-color: red;
+    color: red;
+    background-color: red;;
+    img {
+        width: 100%;
+        height: 100%;
+    }
+}
+.button {
+    button {
+        background-color: #0095ff;
+        border: 1px solid transparent;
+        border-radius: 3px;
+        box-shadow: rgb(255 255 255 / 40%) 0 1px 0 0 inset;
+        box-sizing: border-box;
+        color: #fff;
+        cursor: pointer;
+        display: inline-block;
+        font-family: -apple-system,system-ui,"Segoe UI","Liberation Sans",sans-serif;
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 1.15385;
+        margin: 10px 20px;
+        outline: none;
+        padding: 8px 0.8em;
+        position: relative;
+        text-align: center;
+        text-decoration: none;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        vertical-align: baseline;
+        white-space: nowrap;
+    }
+}
+
+
+
+.labebar--wrapper {
+    display: flex;
+    flex-direction: column;
+    border: 1px gray dotted;
+    width: 200px;
+    margin-top: 30px;
+    margin-left: 100px;
+    position: relative;
+    
+    .title{
+        background-color: white;
+        font-size: 1.4rem;
+        margin-bottom: 10px;
+        position: absolute;
+        top: -15px;
+        margin-left: 10px;
+        box-sizing: content-box;
+        padding: 0 4px
+    }
+    .labebar--list{
+        display:flex;
+        flex-direction: column;
+    }
+    .labebar--list{
+        padding-left: 30px;
+    }
+    li{
+        input {
+            margin-left:5px;
+        }
+        &:first-child{
+            padding-top: 20px;
+        }
+    }
+
+}
+
+.content {
+    display: flex;
+    .labels {
+        display: flex;
+        margin-left: 20px;
+        .color_label{
+            // border: 10px solid pink;
+            height: 500px;
+            width: 500px;
+            // background-color: blue;
+            .color_label--item{
+                display: flex;
+                align-items: center;
+                justify-content:  space-between;
+                .color_label--square{
+                    // background-color: red;
+                    border: 1px solid red;
+                    width: 250px;
+                    height: 250px;
+                }
+            }
+
+        }
+    }
+}
+@import url('https://www.w3schools.com/w3css/4/w3.css');
+.my_progressbar {
+    width: 80%;
+    margin: 20px auto;
+    
+}
+
+.wrapper-all{
+    display:flex;
+    flex-direction: column;
+    height: 800px;
+    justify-content: space-between;
+    // height:
+}
+// .progress-text {
+//     color: black;
+//     width: 50%;
+// }
+// style={{"width":progress+"%"}}

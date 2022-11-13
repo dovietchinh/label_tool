@@ -3,10 +3,10 @@ import styles from './Header.module.scss'
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 let cx = classNames.bind(styles)
 
 function Header(){
-    console.log(images)
     return (
         <div className={cx('header-wrapper')}>
             <div className={cx('header')}>
@@ -14,10 +14,10 @@ function Header(){
                     <img src={images.logo} alt='logo' />
                 </div>
                 <ul className={cx('list')}>
-                    <li><span>Abouts</span></li>
-                    <li><span>Products</span></li>
-                    <li><span>Solutions</span></li>
-                    <li><span>CaseStudy</span></li>
+                    <li><a href="/">Abouts</a></li>
+                    <li><a href="/">Products</a></li>
+                    <li><a href="/">Solutions</a></li>
+                    <li><a href="/">CaseStudy</a></li>
                 </ul>
                 <div className={cx('language-search')}>
                     <div className={cx('language')}> 

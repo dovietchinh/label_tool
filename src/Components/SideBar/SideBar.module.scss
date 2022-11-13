@@ -4,7 +4,7 @@
     width: 250px;
     height: 100%;
     // background-color: red;
-    background-image: url('../../assets/images/sidebar_bg.jpg');
+    // background-image: url('../../assets/images/sidebar_bg.jpg');
     background-size: cover;
     background-position: center;
     
@@ -12,22 +12,57 @@
 
 .sidebar {
     width: 100%;
-    background-color: rgba(0,0,0,0.5);
+    // background-color: rgba(0,0,0,0.5);
     height: 100%;
-    color: white;
+    // color: white;
+    display: flex;
+    flex-direction: column;
 }
 .header{
-    height:60px;
+    height:50px;
     width:100%;
     box-shadow: none 0 10px 0px gray;
-    // &::after{
-    //     position:absolute;
-    //     content: "";
-    //     top: 10px;
-    //     height :1px;
-    //     width  : 250px;
-    //     background-color:red; 
+    position: relative;
+    display: flex;
+    &::after{
+        position:absolute;
+        content: "";
+        height :1px;
+        width  : 100%;
+        top: 100%;
+        left: 0%;
+        background-color:gray; 
 
-    // }
+    }
+    span{
+        margin: auto;
+    }
+}
+.content {
+    flex:1;
+    
+    .content-items{
+        padding-left: 40px;
+        list-style-type: circle;
+        
+    }
+    overflow-y:scroll;
+}
 
+.footer {
+    // background-color: red;
+    height: 50px;
+    width: 100%;
+    display:flex;
+    position: relative;
+    span{
+        margin:auto;
+    }
+    &::before{
+        position: absolute;
+        content:"";
+        background-color:gray;
+        height: 1px;
+        width:100%;
+    }
 }
