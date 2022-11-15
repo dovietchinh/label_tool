@@ -8,10 +8,13 @@ import {globalContext} from '~/GlobalContext'
 let cx = classNames.bind(styles)
 
 function SideBar(){
-    let task = []
-    for(let x =0;x < 100;x++){
-        task.push(`task_${x}`)
-    }
+    let context = useContext(globalContext)
+
+    // let task = []
+    // for(let x =0;x < 100;x++){
+    //     task.push(`task_${x}`)
+    // }
+    let task = context.task
 
 
     // const context = useContext(globalContext)
@@ -22,7 +25,7 @@ function SideBar(){
         <div key='10' className={cx('sidebarWrapper')}>
             <div className={cx('sidebar')}>
                 <div className={cx('header')}>
-                    <span>SIDEBAR HEADER</span>
+                    <span>TASKS</span>
                     
                 </div>
                 <div className={cx('content')}>
@@ -38,7 +41,7 @@ function SideBar(){
                     }
                 </div>
                 <div className={cx('footer')}>
-                    <span>SIDEBAR FOOTER</span>
+                    <span>DOVIETCHINH</span>
                 </div>
             </div>
         </div>

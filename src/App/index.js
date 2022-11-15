@@ -7,6 +7,7 @@ import SideBar from '../Components/SideBar';
 import Contents from '../Components/Contents';
 import classNames from 'classnames';
 import Footer from '../Components/Footer'
+import Modal from '~/Components/Modal'
 let cx = classNames.bind(styles)
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
           </div>
           <Footer/>
       </div>
+      <Modal/>
     </GlobalStyles>
   );
 }

@@ -1,0 +1,71 @@
+.Modal-wrapper {
+    
+    position: fixed;
+    top: 0;
+    left:0;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.5);
+    // display: flex;
+    // display: none;
+}
+.Modal{
+    
+    min-width: 500px;
+    margin: auto;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    .avatar{
+        height: 200px;
+        width: 200px;
+        border-radius: 100px;
+        margin: 40px auto;
+        
+        img{
+            border-radius: 100px;
+            height: 100%;
+            width: 100%;
+            
+        }
+    }
+    .input{
+        display: flex;
+        flex-direction: column;
+        // height: 200px;
+        margin: 0 40px;
+        font-size: 1.1rem;
+        .username,
+        .pass {
+            display: flex;
+            flex-direction: column;
+            label{
+                font-size: 1.2rem;
+                font-weight:bold;
+            }
+            input{
+                background-color: white;
+                border: gray dotted 1px;
+                padding-left: 10px;
+            }
+        }
+        
+    }
+    .submit{
+        height: 40px;
+        width: 20%;
+        margin-left: 40px;
+        margin-bottom: 40px;
+        margin-top: 20px;
+        cursor: pointer;
+    }
+    .noti{
+        color:red;
+        margin-left: 40px;
+        margin-top: 10px;
+    }
+    
+}

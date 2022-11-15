@@ -1,9 +1,11 @@
 
 import styles from './Contents.module.scss'
 import classNames from 'classnames/bind'
-import React, {useState,useContext, useRef, useEffect, useMemo} from 'react'
+import React, {useState,useContext, useRef, useEffect, useMemo, useImperativeHandle} from 'react'
 import {globalContext} from '~/GlobalContext'
 import ProgressBar from 'react-bootstrap/ProgressBar'
+import {forwardRef} from 'react'
+import LabelBar from './LabelBar'
 let cx = classNames.bind(styles)
 
 var Tasks = {
@@ -34,35 +36,46 @@ var Tasks = {
 }
 
 
-
-function LabelBar({attribute_name,labels}){
-    return (
-        <div key={attribute_name} className={cx('labebar--wrapper')}>
-            <span className={cx('title')}>{attribute_name}</span>
-            <ul className={cx('labebar--list')}>
-            {
-                labels.map((element,index_of)=>{return (
-                    <li key={index_of} className="container_checkbox">
-                        <span>{element}</span>
-                        <input type="checkbox"/>
-                        {/* <span className="checkmark"></span> */}
-                    </li>
-
-            )})
-            }
-            </ul>
-            
-        </div>
-    )
-}
-
-
-
 function Contents(){
     let context = useContext(globalContext)
-    
     const [index,setIndex] = useState(0)
+    const [lbChecked, setLbChecked] = useState(false)
     let task = context.task[0]
+    let src = useRef(Tasks[task][index])
+    
+    // let api = src.replace('')
+    // fetch(`127.0.0.1:8089/${src}`)
+    //     .then((res)=>{
+    //         return res.json()
+    //     })
+    //     .then((data)=>{
+            
+    //     })
+    //     .catch((data)=>{
+    //         alert(error)
+    //     })
+
+        
+        
+    const ref_attribute2 = useRef({
+        'age':0,
+        'gender':0,
+        'ub_length':0,
+        'lb_length':0,
+    })
+
+    const age = useRef(null)
+    const gender = useRef(null)
+    const ub_length = useRef(null)
+    const lb_length = useRef(null)
+    const quality = useRef(null)
+
+    
+
+    
+
+
+    
     const [data,setData] = useState(Tasks[task])
 
     const handleOnClickNext = (e) => {
@@ -82,11 +95,30 @@ function Contents(){
             return Math.min(Math.max(pre-1,0),data.length - 1)
         })
     }
+    const handleOnClickSave = (e)=>{
+        console.log(age.current.getAttribute('state'))
+        console.log(gender.current.getAttribute('state'))
+        console.log(ub_length.current.getAttribute('state'))
+        console.log(lb_length.current.getAttribute('state'))
+        console.log(quality.current.getAttribute('state'))
+
+
+        let postOption = {
+            method : 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ title: 'React POST Request Example'})
+        }
+        fetch('http://127.0.0.1:8089',postOption)
+            .then((res)=>{return res.json()})
+            .then((data)=>{alert('save successfully!')})
+            .catch(()=>{alert('can not save!')})
+    }
+    
     useEffect(()=>{
-        let src = Tasks[task][index]
+        src.current = Tasks[task][index]
         let canvas = document.getElementById("canvas");
         let pic = new Image(); 
-        pic.src = src; 
+        pic.src = src.current; 
         pic.onload = function() {
             // canvas.width = pic.width;
             // canvas.height = pic.height;
@@ -99,6 +131,7 @@ function Contents(){
         let p = c.getImageData(7, 7, 1, 1).data;
         let hex = "RGB = " + p[0]+", "+p[1]+", "+p[2];
     },[index])
+
     function handleClick(e){
         
         let canvas = document.getElementById("canvas")
@@ -111,17 +144,15 @@ function Contents(){
         
         let data = ctx.getImageData(x, y, 1, 1).data;
         const rgba = `rgba(${data[0]}, ${data[1]}, ${data[2]}, ${data[3] / 255})`;
-        let lb_color = document.getElementById("lb_color--input")
+        // let lb_color = document.getElementById("lb_color--input")
         let square
-        if (lb_color.isChecked){
+        if (lbChecked){
             square = document.getElementById("lb_color--square")
         }
         else{
             square = document.getElementById("ub_color--square")
         }
         square.style.background = rgba
-        
-        
     }
     return (
         <div className={cx('wrapper-all')}>
@@ -130,34 +161,43 @@ function Contents(){
                 <div className={cx('button')}>
                     <button onClick={handleOnClickNext}>Next</button>
                     <button onClick={handleOnClickBack}>Back</button>
+                    <button onClick={handleOnClickSave}>Save</button>
                 </div>
-                <div className={cx('imgview')} >
-                    {/* <img src={Tasks[task][index]} alt={Tasks[task][index]} onClick={handleClick} />*/}
-                    
-                    <canvas id="canvas" onClick={handleClick}>
-
-                    </canvas>
+                <div className={cx('imgview')} >      
+                    <canvas id="canvas" onClick={handleClick} />
                 </div>
             </div>
             <div className={cx('labels')}>
                 <div className={cx('color_label')}>
                     <div className={cx('ub_color','color_label--item')}>
                         <span>ub_color</span>
-                        <input type='radio'></input>
+                        <input type='radio'
+                            checked={!lbChecked}
+                            onChange={()=>{
+                                setLbChecked(false)
+                            }}
+                        />
                         <div className={cx('color_label--square',)} id="ub_color--square"></div>
                     </div>
                     <div className={cx('lb_color','color_label--item')}>
                         <span>lb_color</span>
-                        <input type='radio' id="lb_color--input"></input>
+                        <input type='radio' 
+                            id="lb_color--input" 
+                            checked={lbChecked}
+                            onChange={()=>{
+                                setLbChecked(true)
+                            }}
+                            
+                        />
                         <div className={cx('color_label--square')} id="lb_color--square"></div>
                     </div>
                 </div>
                 <div className={cx('attribute')}>
-                    <LabelBar labels={["child","adult"]} attribute_name='age'></LabelBar>
-                    <LabelBar labels={["female","male"]} attribute_name='gender'></LabelBar>
-                    <LabelBar labels={["short","long"]} attribute_name='ub_length'></LabelBar>
-                    <LabelBar labels={["short","long"]} attribute_name='lb_length'></LabelBar>
-                    <LabelBar labels={["bad","good"]} attribute_name='quality'></LabelBar>
+                    <LabelBar labels={["child","adult"]} attribute_name='age' ref={age}/>
+                    <LabelBar labels={["female","male"]} attribute_name='gender' ref={gender}/>
+                    <LabelBar labels={["short","long"]} attribute_name='ub_length' ref={ub_length}/>
+                    <LabelBar labels={["short","long"]} attribute_name='lb_length' ref={lb_length} />
+                    <LabelBar labels={["bad","good"]} attribute_name='quality' ref={quality} />
                 </div> 
             </div>
             

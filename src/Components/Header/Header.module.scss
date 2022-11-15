@@ -24,7 +24,7 @@
         justify-content: flex-start;
         a{
             color: #fff;
-            font-size: 1.8rem;
+            font-size: 1.4rem;
         }
         li {
             // width: 24px;
@@ -37,5 +37,13 @@
         display: flex;
         width: 110px;
         justify-content: space-evenly;
+        .language{
+            color:#fff;
+            font-size: 1.4rem;
+            cursor: pointer;
+        }
+        // .search{
+            
+        // }
     }
 }
