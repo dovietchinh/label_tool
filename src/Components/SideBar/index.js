@@ -10,16 +10,11 @@ let cx = classNames.bind(styles)
 function SideBar(){
     let context = useContext(globalContext)
 
-    // let task = []
-    // for(let x =0;x < 100;x++){
-    //     task.push(`task_${x}`)
-    // }
-    let task = context.task
-
-
-    // const context = useContext(globalContext)
-    // console.log('this is context: ', context)
-    // console.log(context.chinhdv)
+    const [taskNames,setTasksName] = context.task
+    const handleOnclick = (e)=>{
+        console.log(e.target.text)
+        setTasksName(e.target.text)
+    }
 
     return (
         <div key='10' className={cx('sidebarWrapper')}>
@@ -30,11 +25,10 @@ function SideBar(){
                 </div>
                 <div className={cx('content')}>
                     {
-                        task.map(a=>{
+                        taskNames.map(a=>{
                             return (
                             <li key={a} className={cx('content-items')}>
-                                {/* <icon></icon> */}
-                                <span>{a}</span>
+                                <span onClick={handleOnclick}>{a}</span>
                             </li>  
                             )
                         })

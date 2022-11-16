@@ -40,21 +40,9 @@ function Contents(){
     let context = useContext(globalContext)
     const [index,setIndex] = useState(0)
     const [lbChecked, setLbChecked] = useState(false)
-    let task = context.task[0]
-    let src = useRef(Tasks[task][index])
-    
-    // let api = src.replace('')
-    // fetch(`127.0.0.1:8089/${src}`)
-    //     .then((res)=>{
-    //         return res.json()
-    //     })
-    //     .then((data)=>{
-            
-    //     })
-    //     .catch((data)=>{
-    //         alert(error)
-    //     })
-
+    const [activeTask,setActiveTask] = context.activeTask
+    const [taskNames,setTasksName] = context.task
+    let src = useRef('logo192.png')
         
         
     const ref_attribute2 = useRef({
@@ -70,29 +58,23 @@ function Contents(){
     const lb_length = useRef(null)
     const quality = useRef(null)
 
-    
-
-    
-
-
-    
-    const [data,setData] = useState(Tasks[task])
+    const [imagesList,setImagesList] = context.imagesList
 
     const handleOnClickNext = (e) => {
-        console.log(index,data.length)
+        console.log(index,imagesList.length)
         setIndex((pre)=>{
-            return Math.min(Math.max(pre+1,0),data.length - 1)
+            return Math.min(Math.max(pre+1,0),imagesList.length - 1)
         })
     }
     const [progress,setProgress] = useState(0)
     useEffect(()=>{
-        let temp = parseInt(index/data.length * 100)
+        let temp = parseInt(index/imagesList.length * 100)
         setProgress(temp)
     },[index])
     const handleOnClickBack = (e) => {
-        console.log(index,data.length)
+        console.log(index,imagesList.length)
         setIndex((pre)=>{
-            return Math.min(Math.max(pre-1,0),data.length - 1)
+            return Math.min(Math.max(pre-1,0),imagesList.length - 1)
         })
     }
     const handleOnClickSave = (e)=>{
@@ -108,17 +90,19 @@ function Contents(){
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ title: 'React POST Request Example'})
         }
-        fetch('http://127.0.0.1:8089',postOption)
+        fetch('http://activeTask/',postOption)
             .then((res)=>{return res.json()})
             .then((data)=>{alert('save successfully!')})
             .catch(()=>{alert('can not save!')})
     }
     
     useEffect(()=>{
-        src.current = Tasks[task][index]
+        // src.current = Tasks[task][index]
+        src.current = 'logo192.png'
         let canvas = document.getElementById("canvas");
         let pic = new Image(); 
-        pic.src = src.current; 
+        // pic.src = src.current; 
+        pic.src = `http://123.24.160.3/${activeTask}/${imagesList[index]}`
         pic.onload = function() {
             // canvas.width = pic.width;
             // canvas.height = pic.height;
@@ -207,7 +191,7 @@ function Contents(){
                 "width": progress + "%",
                 "color": "rgb(0,0,0)",
                 "textAlign": "center"
-            }}>{`${index+1}/${data.length}`}</div>
+            }}>{`${index+1}/${imagesList.length}`}</div>
         </div>
         </div>
     )
