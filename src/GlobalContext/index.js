@@ -1,4 +1,4 @@
-import {useState, createContext} from 'react'
+import {useState, useEffect,createContext} from 'react'
 
 const globalContext = createContext()
 
@@ -7,10 +7,14 @@ function GlobalProvider({children}){
     const [pathImg, setPathImg] = useState([])
     const [modalVisible,setModalVisible] = useState("none")
     const [text,setText] = useState("LOGIN")
-    const [taskNames,setTasksNames] = useState([])
-    const [activeTask,setActiveTask] = useState('')
     const [imagesList,setImagesList] = useState([])
-    fetch('http://123.24.160.3/api/v1/listTasks')
+    const [taskNames,setTasksNames] = useState([])
+    const [activeTask,setActiveTask] = useState('VCR_HMAT_test_age2')
+    // const [taskNames,setTasksNames] = useState(x)
+    // const [activeTask,setActiveTask] = useState(x[0])
+    let x 
+    useEffect(()=>{
+    fetch('http://10.124.64.125:8089/api/v1/listTasks')
         .then((res)=>{
             return res.json()
         })
@@ -18,23 +22,28 @@ function GlobalProvider({children}){
             console.log(data)
             setTasksNames(data.task_names)
             setActiveTask(data.task_names[0])
-            alert('set ')
-            return data
-            // return fetch(`http://10.124.64.125:8089/api/v1/${data.task_names[0]}`)
+            
+            return fetch(`http://10.124.64.125:8089/api/v1/${data.task_names[0]}`)
         })
-        
-        .catch((error)=>{
-            alert('error at fetching list Tasks!!')
-        })
-    fetch(`http://http://123.24.160.3//api/v1/body_part_detection_v1_task_0000`)
         .then(res=>res.json())
         .then((data)=>{
             setImagesList(data.listImages)
         })
         .catch((error)=>{
-            alert('error at fetching list Tasks2!!')
+            alert('error at fetching list Tasks!!')
         })
-
+    },[])
+    // useEffect(()=>{
+    //     fetch(`http://10.124.64.125:8089/api/v1/${activeTask}`)
+    //         .then(res=>res.json())
+    //         .then((data)=>{
+    //             setImagesList(data.listImages)
+    //         })
+    //         // .catch((error)=>{
+    //         //     alert('error at fetching list Tasks!!')
+    //         // })
+    // },[activeTask])
+    
 
     let value = {
         index:[index,setIndex],

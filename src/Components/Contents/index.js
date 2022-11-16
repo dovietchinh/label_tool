@@ -6,45 +6,17 @@ import {globalContext} from '~/GlobalContext'
 import ProgressBar from 'react-bootstrap/ProgressBar'
 import {forwardRef} from 'react'
 import LabelBar from './LabelBar'
+import { type } from '@testing-library/user-event/dist/type'
 let cx = classNames.bind(styles)
-
-var Tasks = {
-    'task_1':[
-        './val2017/000000418959.jpg',
-        './val2017/000000276707.jpg',
-        './val2017/000000114871.jpg',
-        './val2017/000000008844.jpg',
-        './val2017/000000025394.jpg',
-        './val2017/000000260266.jpg',
-        './val2017/000000551820.jpg',
-        './val2017/000000389109.jpg',
-        './val2017/000000129113.jpg',
-        './val2017/000000292488.jpg',
-        './val2017/000000317433.jpg',
-        './val2017/000000576566.jpg',
-        './val2017/000000460929.jpg',
-        './val2017/000000177861.jpg',
-        './val2017/000000328430.jpg',
-        './val2017/000000079837.jpg',
-        './val2017/000000289702.jpg',
-        './val2017/000000497599.jpg',
-        './val2017/000000539883.jpg',
-    ],
-    'task_2':[
-        'val2017/000000379453.jpg',
-    ]
-}
-
 
 function Contents(){
     let context = useContext(globalContext)
-    const [index,setIndex] = useState(0)
+    const [index,setIndex] = context.index
     const [lbChecked, setLbChecked] = useState(false)
     const [activeTask,setActiveTask] = context.activeTask
     const [taskNames,setTasksName] = context.task
     let src = useRef('logo192.png')
-        
-        
+    
     const ref_attribute2 = useRef({
         'age':0,
         'gender':0,
@@ -57,26 +29,27 @@ function Contents(){
     const ub_length = useRef(null)
     const lb_length = useRef(null)
     const quality = useRef(null)
-
     const [imagesList,setImagesList] = context.imagesList
+    const [progress,setProgress] = useState(0)
 
     const handleOnClickNext = (e) => {
-        console.log(index,imagesList.length)
+        // console.log(index,imagesList.length)
         setIndex((pre)=>{
             return Math.min(Math.max(pre+1,0),imagesList.length - 1)
         })
     }
-    const [progress,setProgress] = useState(0)
-    useEffect(()=>{
-        let temp = parseInt(index/imagesList.length * 100)
-        setProgress(temp)
-    },[index])
     const handleOnClickBack = (e) => {
         console.log(index,imagesList.length)
         setIndex((pre)=>{
             return Math.min(Math.max(pre-1,0),imagesList.length - 1)
         })
     }
+    
+    useEffect(()=>{
+        let temp = parseInt(index/imagesList.length * 100)
+        setProgress(temp)
+    },[index])
+    
     const handleOnClickSave = (e)=>{
         console.log(age.current.getAttribute('state'))
         console.log(gender.current.getAttribute('state'))
@@ -90,19 +63,32 @@ function Contents(){
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ title: 'React POST Request Example'})
         }
-        fetch('http://activeTask/',postOption)
+        fetch('http://127.0.0.1/',postOption)
             .then((res)=>{return res.json()})
             .then((data)=>{alert('save successfully!')})
             .catch(()=>{alert('can not save!')})
     }
     
     useEffect(()=>{
-        // src.current = Tasks[task][index]
-        src.current = 'logo192.png'
+        let temp = imagesList[index]
+        console.log('------------------------------')
+        console.log(index, activeTask)
+        if(typeof(temp)=='undefined'){
+            console.log(imagesList)
+        }
+        console.log(temp)
+        // console.log(imagesList)
+        let api = `http://10.124.64.125:8089/images/${activeTask}/${index}`
+        console.log(api)
+        console.log('------------------------------')
+        src.current = api
+
+        // src.current = 'logo192.png'
         let canvas = document.getElementById("canvas");
-        let pic = new Image(); 
-        // pic.src = src.current; 
-        pic.src = `http://123.24.160.3/${activeTask}/${imagesList[index]}`
+        let pic = new Image();
+        pic.crossOrigin="anonymous" 
+        pic.src = src.current; 
+        // pic.src = `10.124.64.125:8089/${activeTask}/${imagesList[index]}`
         pic.onload = function() {
             // canvas.width = pic.width;
             // canvas.height = pic.height;
@@ -111,24 +97,20 @@ function Contents(){
             var ctx = canvas.getContext("2d");
             ctx.drawImage(pic, 0, 0,canvas.width,canvas.height);
         }
-        let c = canvas.getContext('2d');
-        let p = c.getImageData(7, 7, 1, 1).data;
-        let hex = "RGB = " + p[0]+", "+p[1]+", "+p[2];
-    },[index])
+    },[index,activeTask])
 
     function handleClick(e){
         
         let canvas = document.getElementById("canvas")
+        const dataURL = canvas.toDataURL();
         let ctx = canvas.getContext("2d")
         const bounding = canvas.getBoundingClientRect();
         const x = e.clientX - bounding.left;
         const y = e.clientY - bounding.top;
         
         console.log(x,y)
-        
         let data = ctx.getImageData(x, y, 1, 1).data;
         const rgba = `rgba(${data[0]}, ${data[1]}, ${data[2]}, ${data[3] / 255})`;
-        // let lb_color = document.getElementById("lb_color--input")
         let square
         if (lbChecked){
             square = document.getElementById("lb_color--square")

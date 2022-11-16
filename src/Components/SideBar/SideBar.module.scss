@@ -1,7 +1,7 @@
 // $backgounr-color:#0A1B2E;
 
 .sidebarWrapper{
-    width: 250px;
+    width: 400px;
     height: 100%;
     // background-color: red;
     // background-image: url('../../assets/images/sidebar_bg.jpg');
@@ -44,6 +44,7 @@
     .content-items{
         padding-left: 40px;
         list-style-type: circle;
+        cursor: pointer
         
     }
     overflow-y:scroll;

@@ -11,9 +11,21 @@ function SideBar(){
     let context = useContext(globalContext)
 
     const [taskNames,setTasksName] = context.task
+    const [activeTask,setActiveTask] = context.activeTask
+    const [imagesList,setImagesList] = context.imagesList
+    const [index,setIndex] = context.index
     const handleOnclick = (e)=>{
-        console.log(e.target.text)
-        setTasksName(e.target.text)
+        // console.log(e.target.innerHTML)
+        setActiveTask(e.target.innerHTML)
+        setIndex(0)
+        fetch(`http://10.124.64.125:8089/api/v1/${e.target.innerHTML}`)
+            .then(res=>res.json())
+            .then((data)=>{
+                setImagesList(data.listImages)
+            })
+            .catch(()=>{
+                alert('error')
+            })
     }
 
     return (
