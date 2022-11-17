@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { useContext } from 'react';
 import {globalContext} from '~/GlobalContext'
+import Config from '~/Config'
 let cx = classNames.bind(styles)
 
 function SideBar(){
@@ -18,7 +19,7 @@ function SideBar(){
         // console.log(e.target.innerHTML)
         setActiveTask(e.target.innerHTML)
         setIndex(0)
-        fetch(`http://10.124.64.125:8089/api/v1/${e.target.innerHTML}`)
+        fetch(Config.BACKEND + `/api/v1/${e.target.innerHTML}`)
             .then(res=>res.json())
             .then((data)=>{
                 setImagesList(data.listImages)

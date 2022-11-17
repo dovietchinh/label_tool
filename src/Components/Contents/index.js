@@ -7,6 +7,7 @@ import ProgressBar from 'react-bootstrap/ProgressBar'
 import {forwardRef} from 'react'
 import LabelBar from './LabelBar'
 import { type } from '@testing-library/user-event/dist/type'
+import Config from '~/Config'
 let cx = classNames.bind(styles)
 
 function Contents(){
@@ -16,6 +17,7 @@ function Contents(){
     const [activeTask,setActiveTask] = context.activeTask
     const [taskNames,setTasksName] = context.task
     let src = useRef('logo192.png')
+    const [index2,setIndex2] = context.index2
     
     const ref_attribute2 = useRef({
         'age':0,
@@ -48,6 +50,7 @@ function Contents(){
     useEffect(()=>{
         let temp = parseInt(index/imagesList.length * 100)
         setProgress(temp)
+        setIndex2(index)
     },[index])
     
     const handleOnClickSave = (e)=>{
@@ -63,7 +66,7 @@ function Contents(){
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ title: 'React POST Request Example'})
         }
-        fetch('http://127.0.0.1/',postOption)
+        fetch(Config.BACKEND+'/api/save',postOption)
             .then((res)=>{return res.json()})
             .then((data)=>{alert('save successfully!')})
             .catch(()=>{alert('can not save!')})
@@ -78,7 +81,7 @@ function Contents(){
         }
         console.log(temp)
         // console.log(imagesList)
-        let api = `http://10.124.64.125:8089/images/${activeTask}/${index}`
+        let api = Config.BACKEND + `/images/${activeTask}/${index}`
         console.log(api)
         console.log('------------------------------')
         src.current = api
@@ -128,6 +131,18 @@ function Contents(){
                     <button onClick={handleOnClickNext}>Next</button>
                     <button onClick={handleOnClickBack}>Back</button>
                     <button onClick={handleOnClickSave}>Save</button>
+                    <div>
+                        <button onClick={()=>{
+                            setIndex(index2)
+                        }}>Go</button>
+                        <input className={cx("index")} 
+                            type='text' 
+                            placeholder='index' 
+                            value={index2} 
+                            onChange={(e)=>{setIndex2(e.target.value)}}
+                        />
+                        <span>{'/'+imagesList.length}</span>
+                    </div>
                 </div>
                 <div className={cx('imgview')} >      
                     <canvas id="canvas" onClick={handleClick} />
@@ -143,6 +158,7 @@ function Contents(){
                                 setLbChecked(false)
                             }}
                         />
+                        
                         <div className={cx('color_label--square',)} id="ub_color--square"></div>
                     </div>
                     <div className={cx('lb_color','color_label--item')}>
